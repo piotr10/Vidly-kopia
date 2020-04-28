@@ -1,0 +1,48 @@
+﻿@model Vidly.ViewModel.MovieFormViewModel
+@{
+    ViewBag.Title = Model.Title;
+    @* Layout = "~/Views/Shared/_Layout.cshtml"; *@
+}
+
+<h2>@Model.Title</h2>
+
+@using (Html.BeginForm("Save", "Movies"))
+{
+    @Html.ValidationSummary(true, "Please fix the following errors.")
+
+    @*Model widoku Name widoczny na stronie*@
+    <div class="form-group">
+        @Html.LabelFor(m => m.Name)
+        @Html.TextBoxFor(m => m.Name, new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.Name)
+    </div>
+    @*Model widoku ReleaseDate widoczny na stronie*@
+    <div class="form-group">
+        @Html.LabelFor(m => m.ReleaseDate)
+        @Html.TextBoxFor(m => m.ReleaseDate, "{0:d MMM yyyy}", new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.ReleaseDate)
+    </div>
+    @*Model widoku GenreId widoczny na stronie*@
+    <div class="form-group">
+        @Html.LabelFor(m => m.GenreId)
+        @Html.DropDownListFor(m => m.GenreId, new SelectList(Model.Genres, "Id", "Name"), "", new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.GenreId)
+    </div>
+
+    @*Model checkbox widoczny na stronie pobrany z getbootstrap.com*@
+    <div class="form-group">
+        @Html.LabelFor(m => m.NumberInStock)
+        @Html.TextBoxFor(m => m.NumberInStock, new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.NumberInStock)
+    </div>
+
+    @* Dodajemy ukryte pole Id (w celu czytelności kodu ukryte pola dodawaj na końcu np w tym miejscu przed Save*@
+    @Html.HiddenFor(m => m.Id)
+    @Html.AntiForgeryToken()
+
+    <button type="submit" class="btn btn-primary">Save</button>
+
+    @section scripts{
+        @Scripts.Render("~/bundles/jqueryval")
+    }
+}

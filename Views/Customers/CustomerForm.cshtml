@@ -1,0 +1,78 @@
+﻿@model Vidly.ViewModel.CustomerFormViewModel
+@{ @*@model Vidly. .... jest używane aby mozna było użyć danej klasy*@
+ViewBag.Title = "New";
+Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>New Customer</h2> @* Nagłówek *@
+
+@*Dzięki BeginForm oraz temu podobnych metod jak ActionLink wyrenderujemy formularz*@
+@using (Html.BeginForm("Save", "Customers"))
+{
+    @* Validation Summary - jest to lista pól wymaganych do uzupełnienia wypisanych jeden pod drugim (np Name, Birthday, Membership *@
+    @Html.ValidationSummary(true, "Please fix the following errors") @* pierwszy argument - true, drugi argument - wiadomosc*@
+
+    @*Model widoku Name widoczny na stronie*@
+    <div class="form-group">
+        @Html.LabelFor(m => m.Customer.Name) @*Dodaje nazwę Name nad TextBoxem*@
+        @Html.TextBoxFor(m => m.Customer.Name, new { @class = "form-control" }) @*@class = "form-control"  - nadaje naszemu polu ładny nowoczesny wygląd*@
+        @Html.ValidationMessageFor(m => m.Customer.Name) @* Validation message - tzn, że to pole jest wymagane do uzupelnienia*@
+    </div>
+
+    @*Model tabeli rozwijanej widocznej na stronie*@
+    <div class="form-group">
+        @Html.LabelFor(m => m.Customer.MembershipTypeId) @*Dodaje nazwę Membership Type nad TextBoxem*@
+        @Html.DropDownListFor(m => m.Customer.MembershipTypeId,
+            new SelectList(Model.MembershipTypes,
+                "Id",
+                "Name"),
+            "Select Membership Type",
+            new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.Customer.MembershipTypeId)
+    </div>
+
+    @*Model widoku birthday widoczny na stronie*@
+    <div class="form-group">
+        @Html.LabelFor(m => m.Customer.Birthdate) @*Dodaje nazwę Birthday nad TextBoxem*@
+        @Html.TextBoxFor(m => m.Customer.Birthdate, "{0:d MMM yyyy}", new { @class = "form-control" })
+        @Html.ValidationMessageFor(c => c.Customer.Birthdate)@*Valdiation message - pole musowo do uzupełnienia przez UI*@
+    </div>
+
+    @*Model checkbox widoczny na stronie pobrany z getbootstrap.com*@
+    <div class="checkbox">
+        <label>
+            @Html.CheckBoxFor(m => m.Customer.IsSubscribedToNewsletter) Subscribe to Newsletter?
+        </label>
+    </div>
+
+    @* Dodajemy ukryte pole Id (w celu czytelności kodu ukryte pola dodawaj na końcu np w tym miejscu przed Save*@
+    @Html.HiddenFor(m => m.Customer.Id);
+    @Html.AntiForgeryToken() @*Jest to ochrona przed hakerami aby nie skorzystali z niewylogowania sie uzytkownika i przechwycenia jego aktywnej sesji*@
+    @*Metoda ta utworzy tajny kod a nastepnie umiesci go w formularzu jako ukryte*@
+    @*Dodajemy button do zapisu klienta*@
+    <button type="submit" class="btn btn-primary">Save</button>
+}
+
+@*  Info a propo Scripts.Render > Enable Clinet-Side Validation - jest to bardzo ważne do ochrony, poza tym wszsytko dzieje się na płaszczyxnie client-side
+    czyli klinet-strona i nie gtrzeba wysyłać zapytań do bazy danych i ją obciążać a uzytkownik dostaje odpowiedz natychmiastowo 
+    czy wypelnil formularz prawidłowo czy nie*@
+@section scripts
+{
+    @Scripts.Render("~/bundles/jqueryval")
+}
+
+
+@*Html. - pozwala na użycie metod Html *@
+
+@*  new {@class = "form-control"} - dzięki temu nasza ramka będzie miała zaokrąglane krawędzie *@
+
+@*  Bootstrap zapewnia trzy typy układów formularzy:
+
+    Forma pionowa (jest to ustawienie domyślne)
+    Forma pozioma
+    Formularz wbudowany
+    Standardowe reguły dla wszystkich trzech układów formularzy:
+
+    -Zawijaj etykiety i kontrolki formularzy w <div class = "form-group"> (potrzebne do optymalnych odstępów)
+    -Dodaj klasę .form-control do wszystkich elementów tekstowych <input>, <textarea> i <select>
+*@
