@@ -39,14 +39,14 @@
 
 @*
     @{
-        var className = Model.Customers.Count > 1 ? "popular" : null;
+        var className = Model.Customers.Count > 5 ? "popular" : null;
     }
 
     <h2 class="@className">@Model.Movie.Name</h2>
     @Model.Customers
 
     @*
-        if który wyswietli użytkownikowy że filmy nkt wczesniej nie wypożyczeł tego filmu i jako pierwszy klient dostanie taką wiadmość
+        if który wyswietli użytkownikowy że filmy nikt wczesniej nie wypożyczył tego filmu i jako pierwszy klient dostanie taką wiadmość
 *@
 
 @*

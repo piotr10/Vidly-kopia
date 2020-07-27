@@ -27,13 +27,16 @@ namespace Vidly.Controllers
 
         public ViewResult Index()
         {
-            var movie = _context.Movies.Include(m => m.Genre).ToList();
-
-            return View(movie);
-            ;
+            //var movie = _context.Movies.Include(m => m.Genre).ToList();
+            //właściwośc użytkownika naszego kontrolera, któa daje nam dostęp do obecnego użytkownika 
+            if (User.IsInRole(RoleName.CanManageMovies))
+                return View("List");
+            else
+                return View("ReadOnlyList");
         }
 
         //Tworzymy formularz dla Genre oraz widok MovieForm
+        [Authorize(Roles = RoleName.CanManageMovies)] // tutaj ustawiamy właściwości roli aby zwykły użytkownik całkowicie nie mógł ingerować w edycjęfilmu
         public ViewResult New()
         {
             var genre = _context.Genres.ToList(); // pobieramy liste filmów z tabeli Genres
@@ -58,6 +61,7 @@ namespace Vidly.Controllers
                     //Movie = movie,
                     Genres = _context.Genres.ToList()
                 };
+
                 return View("MovieForm", viewModel);
             }
             if (movie.Id == 0)
@@ -105,7 +109,7 @@ namespace Vidly.Controllers
                 return HttpNotFound();
             }
 
-            var viewModel = new MovieFormViewModel(movie)
+            var viewModel = new MovieFormViewModel(movie) //po dodaniu movie musisz dodać konstruktor w MovieFormViewModel i przekazac w nim Movie movie
             {
                 Movie = movie,
                 Genres = _context.Genres.ToList() //inicjalizacja ta pozwala na pobranie Genres z bazy prosto tutaj

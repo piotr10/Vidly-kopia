@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Vidly.Models
 {
-    public class MembershipType //Członkostwo
+    public class MembershipType //Członkostwo 
     {
         public byte Id { get; set; }
         [Required]

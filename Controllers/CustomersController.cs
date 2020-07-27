@@ -79,9 +79,7 @@ namespace Vidly.Controllers
         // GET: Customer
         public ViewResult Index()
         {
-            var customers = _context.Customers.Include(c => c.MembershipType).ToList();
-
-            return View(customers);
+            return View();
         }
 
         public ActionResult Details(int id)
@@ -103,7 +101,7 @@ namespace Vidly.Controllers
             //jeżeli dany klient istnieje w bazie danych zostanie zwrócony, jezeli nie to otrzymamy null i musimy to sprawdzić
             if (customer == null)
             {
-                return HttpNotFound();
+                return HttpNotFound(); // zwraca standardowy błąd 404
             }
 
             var viewModel = new CustomerFormViewModel()
@@ -112,7 +110,7 @@ namespace Vidly.Controllers
                 MembershipTypes = _context.MembershipTypes.ToList() //inicjalizacja ta pozwala na pobranie membershipType z bazy prosto tutaj
             };
             //zwracamy klienta
-            return View("CustomerForm", viewModel);//bez tego MVC będzie szukało akcji Edit a nie CustomerForm w któej znajdują się pola do wypełnienia danych przez użytkownika
+            return View("CustomerForm", viewModel);//bez tego MVC będzie szukało akcji Edit a nie CustomerForm w której znajdują się pola do wypełnienia danych przez użytkownika
         }
     }
 }

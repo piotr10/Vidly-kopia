@@ -17,10 +17,10 @@ namespace Vidly.Models
         public MembershipType MembershipType { get; set; } //navigation propeprty która pozwala nam poruszać się z jednego
         //typu do drugiego w tym przpadku od Customer do MemershipType
 
-        [Display(Name = "Membership Type")]
+        [Display(Name = "Membership Type")] //zmiana nazwy na Membership Type
         public byte MembershipTypeId { get; set; } // klucz obcy
         
-        [Display(Name = "Date of Birth")]
+        [Display(Name = "Date of Birth")] // zmiana nazwy na Date of Birth
         [Min18YearsIfAMember] //specjalna klasa utworzona przez nas w celu niestandardowego sprawdzenia daty urodzenia
         public DateTime? Birthdate { get; set; }
     }

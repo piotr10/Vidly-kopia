@@ -12,9 +12,9 @@
 
     @*Model widoku Name widoczny na stronie*@
     <div class="form-group">
-        @Html.LabelFor(m => m.Name)
-        @Html.TextBoxFor(m => m.Name, new { @class = "form-control" })
-        @Html.ValidationMessageFor(m => m.Name)
+        @Html.LabelFor(m => m.Name)  @*dodanie nazwy Name - analogicznie w kolejnych widokach to samo*@
+        @Html.TextBoxFor(m => m.Name, new { @class = "form-control" }) @*dodanie text boxa do wpisywania dla Name - analogicznie w kolejnych widokach to samo *@
+        @Html.ValidationMessageFor(m => m.Name) @*dodanie walidacji dla Name - analogicznie w kolejnych widokach to samo*@
     </div>
     @*Model widoku ReleaseDate widoczny na stronie*@
     <div class="form-group">
@@ -38,11 +38,11 @@
 
     @* Dodajemy ukryte pole Id (w celu czytelności kodu ukryte pola dodawaj na końcu np w tym miejscu przed Save*@
     @Html.HiddenFor(m => m.Id)
-    @Html.AntiForgeryToken()
+    @Html.AntiForgeryToken() @*dodanie Tokena aby zabezpieczyć forularz przed hakerami (CSRF- Cross site Request Forgery)*@
 
     <button type="submit" class="btn btn-primary">Save</button>
 
     @section scripts{
-        @Scripts.Render("~/bundles/jqueryval")
+        @Scripts.Render("~/bundles/jqueryval") @*włączenie validacji klient-strona aby bez potrzeby nie wysyłać zapytania do bazy co przyspiesza odpowiedź czy formularz jest wypełniony poprawnie*@
     }
 }

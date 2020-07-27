@@ -13,7 +13,7 @@ namespace Vidly.Models
         
         public Genre Genre { get; set; }
 
-        [Display(Name = "Genre")]
+        [Display(Name = "Genre")] // zmiana nazwy na Genre
         [Required]
         public byte GenreId { get; set; }
 
